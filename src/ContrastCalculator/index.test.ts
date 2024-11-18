@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { ContrastCalculator } from './index';
+import { ContrastCalculator } from '../index';
 
 test('contrast-theme calculator', async (t) => {
   const black = [0, 0, 0] as const;
