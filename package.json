@@ -1,6 +1,6 @@
 {
   "name": "@ribonuclecode/calculate-theme-contrast-canvas",
-  "version": "1.1.4",
+  "version": "1.2.0",
   "description": "Calculate theme contrast based on canvas image data",
   "main": "lib/main/index.js",
   "typings": "lib/main/index.d.ts",
@@ -41,6 +41,9 @@
   "devDependencies": {
     "@ava/typescript": "^3.0.1",
     "@istanbuljs/nyc-config-typescript": "^1.0.2",
+    "@testing-library/react": "^16.0.1",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
     "@typescript-eslint/eslint-plugin": "^5.51.0",
     "@typescript-eslint/parser": "^5.51.0",
     "ava": "^5.2.0",
@@ -55,6 +58,8 @@
     "nyc": "^15.1.0",
     "open-cli": "^7.0.1",
     "prettier": "^2.8.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "ts-node": "^10.9.1",
     "typedoc": "^0.23.10",
     "typescript": "^4.9.5"
