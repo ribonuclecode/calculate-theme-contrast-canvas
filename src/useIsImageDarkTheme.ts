@@ -8,7 +8,13 @@ type Return = {
   height: number;
 };
 
-export function useIsImageDarkTheme() {
+type Args = {
+  isDesactivate?: boolean;
+};
+
+export function useIsImageDarkTheme(args: Args = { isDesactivate: false }) {
+  const { isDesactivate } = args;
+
   const imageRef = useRef<HTMLImageElement | null>(null);
   const calculateConstrast = useRef<(() => void) | null>(null);
   const [isOnLoadCalled, setIsOnLoadCalled] = useState(false);
@@ -25,6 +31,8 @@ export function useIsImageDarkTheme() {
   }, []);
 
   useEffect(() => {
+    if (isDesactivate) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && calculateConstrast.current) {
@@ -48,7 +56,7 @@ export function useIsImageDarkTheme() {
         observer.unobserve(imageRef.current);
       }
     };
-  }, [isOnLoadCalled]);
+  }, [isOnLoadCalled, isDesactivate]);
 
   return { imageRef, setOnLoadImage, isDark };
 }
