@@ -1,5 +1,5 @@
 {
-  "name": "@ribonuclecode/calculate-theme-contrast-canvas",
+  "name": "@ribonuclecode/calculate-contrast",
   "version": "1.2.0",
   "description": "Calculate theme contrast based on canvas image data",
   "main": "lib/main/index.js",
@@ -13,7 +13,7 @@
     "theme",
     "canvas",
     "image",
-    "data"
+    "luminance"
   ],
   "scripts": {
     "build": "run-p build:*",
