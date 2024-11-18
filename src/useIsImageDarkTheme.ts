@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import { ContrastCalculator } from './ContrastCalculator';
+
 type Return = {
   imageData: ImageData;
   width: number;
@@ -15,7 +17,6 @@ export function useIsImageDarkTheme() {
   const setOnLoadImage = useCallback((onLoadImage: () => Return) => {
     calculateConstrast.current = async () => {
       const { width, height, imageData } = onLoadImage();
-      const { ContrastCalculator } = await import('./ContrastCalculator');
       const constrastCalculator = new ContrastCalculator({ width, height });
       const isDark = constrastCalculator.isDarkTheme(imageData);
       setIsDark(isDark);
