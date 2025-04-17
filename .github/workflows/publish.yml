@@ -1,4 +1,4 @@
-name: Publish to NPM (on version bump)
+name: Publish to NPM
 
 on:
   push:
@@ -6,13 +6,14 @@ on:
       - main
 
 permissions:
-  contents: write # necesario para hacer push del tag
+  contents: write # necesario para crear tags, si los mantienes
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout current commit
+      - name: Checkout repository
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -23,44 +24,21 @@ jobs:
           node-version: '18'
           registry-url: 'https://registry.npmjs.org/'
 
-      - name: Get current version
-        id: current
-        run: echo "version=$(jq -r .version package.json)" >> $GITHUB_OUTPUT
-
-      - name: Get previous version from main
-        id: previous
-        run: |
-          git fetch origin main
-          git checkout origin/main -- package.json
-          echo "version=$(jq -r .version package.json)" >> $GITHUB_OUTPUT
-
-      - name: Compare versions
-        id: check
-        run: |
-          if [ "${{ steps.current.outputs.version }}" != "${{ steps.previous.outputs.version }}" ]; then
-            echo "publish=true" >> $GITHUB_OUTPUT
-          else
-            echo "publish=false" >> $GITHUB_OUTPUT
-          fi
-
       - name: Install dependencies
-        if: steps.check.outputs.publish == 'true'
         run: npm ci
 
       - name: Run tests
-        if: steps.check.outputs.publish == 'true'
         run: npm test
 
       - name: Publish to NPM
-        if: steps.check.outputs.publish == 'true'
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create Git Tag
-        if: steps.check.outputs.publish == 'true'
         run: |
+          VERSION=$(jq -r .version package.json)
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag v${{ steps.current.outputs.version }}
-          git push origin v${{ steps.current.outputs.version }}
+          git tag v$VERSION
+          git push origin v$VERSION
